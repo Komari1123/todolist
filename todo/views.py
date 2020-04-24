@@ -23,7 +23,7 @@ class TodoDetail(DetailView):
 class TodoCreate(CreateView):
     template_name = 'create.html'
     model = TodoModel
-    fields = ('titile','memo','priority','duedate')
+    fields = ('titile','author','memo','priority','duedate')
     success_url = reverse_lazy('list')
 
 class TodoDelete(DeleteView):
