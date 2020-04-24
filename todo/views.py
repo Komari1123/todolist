@@ -8,13 +8,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
-
-
-
 # Create your views here.
 class TodoList(ListView):
     template_name = 'list.html'
     model = TodoModel
+    #user = User.objects.get(username = self.request.user)
+
+
 
 class TodoDetail(DetailView):
     template_name = 'detail.html'
@@ -57,6 +57,9 @@ def loginfunc(request):
         user = authenticate(request, username=username2, password=password2)
         if user is not None:
             login(request, user)
+            # global login_user
+            # login_user = username2
+            # print(login_user)
             return redirect('list')
         else:
             return redirect('login')
@@ -65,3 +68,4 @@ def loginfunc(request):
 def logoutfunc(request):
     logout(request)
     return redirect('login')
+
