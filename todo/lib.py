@@ -97,6 +97,7 @@ class TimeScheduleBS4:
         a('<div class="col" style="height:{0}px;">'.format(self.max_height))
         for hour in self.hours:
             a(self.format_hour_name(hour))
+            
         a('</div>')
  
         # 右列、スケジュール作成部分

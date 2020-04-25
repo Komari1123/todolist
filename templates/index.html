@@ -21,6 +21,7 @@
         </div>
         <div class="col-sm-4">
             <form action="" method="POST">{% csrf_token %}
+
                 <p>タイトル：<input type='text' name='titile'></p>
                 <input type='hidden' name='author' value='{{ user.username }}'>
                 <input type='hidden' name='author_pk' value='{{ user.pk }}'>
