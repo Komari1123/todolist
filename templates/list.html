@@ -6,8 +6,6 @@
     </div>
 </div> {%endblock header%} {% block content %}
 <div class="container">
-
-    <p>{{user.pk}}</p>
     <a href="{%url 'create'%}" class="btn btn-info" tabindex="-1" role="button" aria-disabled='true'>新規作成</a> {% for item in object_list %} {% if item.author_pk == user.pk%}
     <div class="alert alert-{{item.priority}}" role="alert">
         <p>{{item.titile}} 期日:{{item.duedate}} 作成者 :{{item.author}}</p>

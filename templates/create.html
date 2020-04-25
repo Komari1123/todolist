@@ -2,7 +2,7 @@
 <form action="" method="POST">{% csrf_token %}
     <p>タイトル：<input type='text' name='titile'></p>
     <input type='hidden' name='author' value='{{ user.username }}'>
-    <input type='hidden' name='author_pk' value='{{ user.pk}}'>
+    <input type='hidden' name='author_pk' value='{{ user.pk }}'>
     <p> <label for="id_memo">Memo:</label><textarea name="memo" cols="40" rows="10" required="" id="id_memo"></textarea></p>
     <p>
         <label for="id_priority">Priority:</label>

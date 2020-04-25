@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 
@@ -13,5 +14,7 @@ class TodoModel(models.Model):
         choices = PRIORITY,
         )
     duedate = models.DateField()
+    start_time = models.TimeField(default=datetime.time(0, 0, 0))
+    end_time = models.TimeField(default=datetime.time(0, 0, 0))
     def __str__(self):
         return self.titile

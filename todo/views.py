@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.utils.safestring import mark_safe
+from .lib import TimeScheduleBS4
 
 # Create your views here.
 class TodoList(ListView):
@@ -21,10 +23,20 @@ class TodoDetail(DetailView):
     model = TodoModel
 
 class TodoCreate(CreateView):
-    template_name = 'create.html'
+    template_name = 'index.html'
     model = TodoModel
-    fields = ('titile','author','memo','priority','duedate')
+    fields = ('titile','author','author_pk','memo','priority','duedate','start_time','end_time')
     success_url = reverse_lazy('list')
+
+    def get_context_data(self, *args, **kwargs):
+        schedules = TodoModel.objects.order_by('start_time')
+        time_schedule = TimeScheduleBS4(step=10, minute_height=0.5)
+        context = super().get_context_data(*args, **kwargs)
+        # テンプレートにhtmlを含んだ文字列を渡すときは、mark_safeをしておけばよい
+        context['time_schedule'] = mark_safe(
+            time_schedule.format_schedule(schedules)
+        )
+        return context
 
 class TodoDelete(DeleteView):
     template_name = 'delete.html'
@@ -47,7 +59,7 @@ def signupfunc(request):
             return render(request, 'signup.html', {'error':'このユーザーは登録されています'})
         except:
             user = User.objects.create_user(username2, '', password2)
-            return render(request, 'signup.html', {'some':100})
+            return render(request, 'list.html', {'some':100})
     return render(request, 'signup.html', {'some':100})
 
 def loginfunc(request):
