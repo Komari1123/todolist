@@ -1,0 +1,78 @@
+{% extends 'base.html' %} {% load static %} {% block customcss %}
+<link rel='stylesheet' type='text/css' href="{% static 'timer_style.css' %}"> {% endblock customcss %} {%block header%} {%endblock header%} {% block content %}
+<div class="container">
+    <p id='timer'>00:25:00</p>
+    <div>
+        <button id="start_stop" class="btn btn-lg btn-primary" type="submit">START</button>
+    </div>
+    <a href="{%url 'list'%}" class="btn btn-success " tabindex="-1" role="button" aria-disabled='true'>戻る</a>
+    <h5 id="p1">Next...</h5>
+    <form method="post" action="" id="next">{% csrf_token %}
+        <p><input type="radio" id="radio_1" name="radio" value="re">Restart</p>
+        <p><input type="radio" id="radio_2" name="radio" value="home">Home</p>
+        <button id="subb" class="btn-lg btn-primary btn-block" type="submit">Done</button>
+    </form>
+</div>
+
+<script>
+    var start;
+    var timer_id
+    document.getElementById("p1").style.display = "none";
+    document.getElementById("next").style.display = "none";
+
+    document.getElementById('start_stop').addEventListener('click', function() {
+        if (this.innerHTML === 'START') {
+            start = new Date();
+
+            timer_id = setInterval(goTimer, 10);
+            this.innerHTML = 'STOP';
+            this.classList.remove('btn-primary');
+            this.classList.add('btn-danger');
+        } else {
+            clearInterval(timer_id);
+            this.innerHTML = 'START';
+            this.classList.remove('btn-danger');
+            this.classList.add('btn-primary');
+        }
+    });
+
+    var addZero = function(value) {
+        if (value < 10) {
+            value = '0' + value;
+        }
+        return value
+    };
+
+    var goTimer = function() {
+        var now = new Date();
+        var milli = now.getTime() - start.getTime();
+        var seconds = Math.floor(milli / 1000);
+        var minites = Math.floor(seconds / 60);
+        var hours = Math.floor(minites / 60);
+
+        seconds = seconds - minites * 60;
+        minites = minites - hours * 60;
+
+        hours = addZero(hours);
+        // minites = addZero(minites);
+        // seconds = addZero(seconds);
+
+        var sum_times = minites * 60 + seconds;
+        var left_time = 1 * 60 - sum_times;
+
+        var left_minites = Math.floor(left_time / 60);
+        var left_second = Math.floor(left_time - left_minites * 60);
+
+        left_minites = addZero(left_minites)
+        left_seconds = addZero(left_second)
+
+        if (left_minites >= 0 && left_seconds >= 0) {
+            document.getElementById('timer').innerHTML = hours + ':' + left_minites + ':' + left_seconds;
+        } else {
+            document.getElementById('timer').innerHTML = '00:00:00';
+            p1.style.display = "block";
+            next.style.display = "block";
+        }
+    }
+</script>
+{% endblock content %}

@@ -6,7 +6,8 @@
     </div>
 </div> {%endblock header%} {% block content %}
 <div class="container">
-    <a href="{%url 'create'%}" class="btn btn-info" tabindex="-1" role="button" aria-disabled='true'>新規作成</a> {% for item in object_list %} {% if item.author_pk == user.pk%}
+    <a href="{%url 'create'%}" class="btn btn-info" tabindex="-1" role="button" aria-disabled='true'>新規作成</a>
+    <a href="{%url 'timer'%}" class="btn btn-info" tabindex="-1" role="button" aria-disabled='true'>Start</a> {% for item in object_list %} {% if item.author_pk == user.pk%}
     <div class="alert alert-{{item.priority}}" role="alert">
         <p>{{item.titile}} 期日:{{item.duedate}} 作成者 :{{item.author}}</p>
         <a href="{%url 'update' item.pk %}" class="btn btn-info  " tabindex="-1" role="button" aria-disabled="true">編集</a>
@@ -14,4 +15,31 @@
         <a href="{%url 'detail' item.pk %}" class="btn btn-success  " tabindex="-1" role="button" aria-disabled="true">詳細</a>
     </div>
     {%endif%}{%endfor%}
+
+    <style>
+        .minute-wrapper {
+            border: 1px solid #eceeef;
+        }
+        
+        .hour-name {
+            padding: 5px;
+            text-align: right;
+            border: 1px solid #eceeef;
+        }
+        
+        .just-hour {
+            border-top: 1px solid #eceeef;
+        }
+    </style>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-sm-8">
+                {{ time_schedule }}
+            </div>
+            <div class="col-sm-4">
+                <h3>aaaa</h3>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
 </div>{% endblock content %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView,DetailView,CreateView,DeleteView,UpdateView
+from django.views.generic import ListView,DetailView,CreateView,DeleteView,UpdateView,TemplateView
 from .models import TodoModel
 from django.urls import reverse_lazy
 
@@ -10,10 +10,33 @@ from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
 from .lib import TimeScheduleBS4
 
-# Create your views here.
+def timer(request):
+    if request.method == 'POST':
+        radio = request.POST['radio']
+        if radio == 're':
+            return redirect('timer')
+        elif radio == 'home':
+            return redirect('list')
+    return render(request, 'timer.html')
+
+
+    
+
 class TodoList(ListView):
     template_name = 'list.html'
     model = TodoModel
+
+    def get_context_data(self, *args, **kwargs):
+        user = self.request.user.pk
+        todomodel = TodoModel.objects.filter(author_pk=user)
+        schedules = todomodel.order_by('start_time')
+        time_schedule = TimeScheduleBS4(step=10, minute_height=0.5)
+        context = super().get_context_data(*args, **kwargs)
+        # テンプレートにhtmlを含んだ文字列を渡すときは、mark_safeをしておけばよい
+        context['time_schedule'] = mark_safe(
+            time_schedule.format_schedule(schedules)
+        )
+        return context
 
 class TodoDetail(DetailView):
     template_name = 'detail.html'
