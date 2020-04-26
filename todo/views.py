@@ -83,11 +83,33 @@ class TodoDelete(DeleteView):
     model= TodoModel
     success_url = reverse_lazy('list')
 
+    def get_context_data(self, *args, **kwargs):
+        user = self.request.user.pk
+        todomodel = TodoModel.objects.filter(author_pk=user)
+        schedules = todomodel.order_by('start_time')
+        time_schedule = TimeScheduleBS4(step=10, minute_height=0.5)
+        context = super().get_context_data(*args, **kwargs)
+        context['time_schedule'] = mark_safe(
+            time_schedule.format_schedule(schedules)
+        )
+        return context
+
 class TodoUpdate(UpdateView):
     template_name = 'update.html'
     model= TodoModel
-    fields = ('titile','priority')
+    fields = ('titile','priority','start_time','end_time','predict_pomodoro')
     success_url = reverse_lazy('list')
+
+    def get_context_data(self, *args, **kwargs):
+        user = self.request.user.pk
+        todomodel = TodoModel.objects.filter(author_pk=user)
+        schedules = todomodel.order_by('start_time')
+        time_schedule = TimeScheduleBS4(step=10, minute_height=0.5)
+        context = super().get_context_data(*args, **kwargs)
+        context['time_schedule'] = mark_safe(
+            time_schedule.format_schedule(schedules)
+        )
+        return context
 
 
 def signupfunc(request):

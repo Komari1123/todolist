@@ -1,5 +1,53 @@
 {% extends 'base.html'%} {% block content %}
-<form action="" method="POST">{% csrf_token %} {{form.titile}} {{form.memo}} {{form.priority}} {{form.duedate}}
-    <input type="submit" value="更新する">
-</form>
+<style>
+    .minute-wrapper {
+        border: 1px solid #eceeef;
+    }
+    
+    .hour-name {
+        padding: 5px;
+        text-align: right;
+        border: 1px solid #eceeef;
+    }
+    
+    .just-hour {
+        border-top: 1px solid #eceeef;
+    }
+</style>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-sm-8">
+            <h3 style='text-align: center;'>Today's schedule</h3>
+            {{ time_schedule }}
+        </div>
+        <div class="col-sm-4">
+            <form action="" method="POST">{% csrf_token %}
+                <p>Title：{{form.titile}}</p>
+                <p>Priority:{{form.priority}}</p>
+                <p>{{start_time}}</p>
+                <p>Strat：<input id="start_time" type='text' name='start_time'></p>
+                <p>End：<input id="end_time" type='text' name='end_time'></p>
+                <p>Predict Pomodoro：{{form.predict_pomodoro}}</p>
+                <input type="submit" class="btn btn-primary" value="Update" style="margin-bottom: 5px;">
+
+            </form>
+            <a id='go_back' href="{%url 'list'%}" class="btn btn-success " tabindex="-1" role="button" aria-disabled='true'>Back</a>
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://felicegattuso.com/projects/timedropper/js/timedropper/timedropper.js"></script>
+<script>
+    $("#start_time").timeDropper({
+        format: "H:mm",
+        setCurrentTime: false,
+    });
+    $("#end_time").timeDropper({
+        format: "H:mm",
+        setCurrentTime: false,
+    });
+</script>
 {% endblock content%}

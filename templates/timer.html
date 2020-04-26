@@ -5,8 +5,7 @@
     <div>
         <button id="start_stop" class="btn btn-lg btn-primary" type="submit">START</button>
     </div>
-    <a id='go_back' href="{%url 'list'%}" class="btn btn-success " tabindex="-1" role="button" aria-disabled='true'>Return to Home (
-        Stop the challenge )</a>
+    <a id='go_back' href="{%url 'list'%}" class="btn btn-success " tabindex="-1" role="button" aria-disabled='true'>Back (Stop the challenge )</a>
     <form method="post" action="" id="next">{% csrf_token %}
         <h5 style="margin-top: 5px;">Good job !! Which task did you do?</h5>
 
