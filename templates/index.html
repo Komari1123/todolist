@@ -1,4 +1,4 @@
-{% extends 'base.html'%} {% block content %}
+ {% extends "base.html" %} {% block content %}
 <style>
     .minute-wrapper {
         border: 1px solid #eceeef;
@@ -22,15 +22,29 @@
         </div>
         <div class="col-sm-4">
             <form action="" method="POST">{% csrf_token %}
-                <p>Title：{{form.titile}}</p>
-                <p>Priority:{{form.priority}}</p>
-                <p>{{start_time}}</p>
+
+                <p>Title：<input type='text' name='titile'></p>
+                <input type='hidden' name='author_pk' value='{{ user.pk }}'>
+                <p>
+                    <label for="id_priority">Priority:</label>
+                    <select name="priority" required="" id="id_priority">
+                            <option value="" selected="">---------</option>
+                          
+                            <option value="danger">high</option>
+                          
+                            <option value="info">normal</option>
+                          
+                            <option value="success">low</option>
+                          
+                          </select>
+                </p>
                 <p>Strat：<input id="start_time" type='text' name='start_time'></p>
                 <p>End：<input id="end_time" type='text' name='end_time'></p>
-                <p>Predict Pomodoro：{{form.predict_pomodoro}}</p>
-                <input type="submit" class="btn btn-primary" value="Update" style="margin-bottom: 5px;">
-
+                <p>Predict Pomodoro：<input type='number' name='predict_pomodoro'></p>
+                <input type='hidden' name='true_pomodoro' value=0>
+                <input type="submit" value="Create" class="btn btn-info">
             </form>
+            <p></p>
             <a id='go_back' href="{%url 'list'%}" class="btn btn-success " tabindex="-1" role="button" aria-disabled='true'>Back</a>
         </div>
     </div>
@@ -50,4 +64,4 @@
         setCurrentTime: false,
     });
 </script>
-{% endblock content%}
+{% endblock %}

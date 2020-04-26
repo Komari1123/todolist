@@ -1,19 +1,128 @@
-{% extends 'base.html' %} {%block header%}
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">Todolist</h1>
-        <p class="lead">Todolistを作って毎日を効率的に過ごしましょう</p>
-    </div>
-</div> {%endblock header%} {% block content %}
-<div class="container">
+{% extends 'base.html' %} {% block content %}
+<div class="container ">
+    <a href="{%url 'create'%} " class="btn btn-primary " tabindex="-1 " role=" button " aria-disabled='true' style="margin-bottom: 5px; ">Create New</a>
+    <a href="{%url 'timer'%} " class="btn btn-danger " tabindex="-1 " role="button " aria-disabled='true' style="margin-bottom: 5px; ">Start Timer</a> {% for item in object_list %} {% if item.author_pk == user.pk%}
+    <div class=" alert alert-{{item.priority}} " role="alert ">
+        <p>{{item.titile}} ( Predict Pomodoro : {{item.predict_pomodoro}} , Actual Pomodoro : {{item.true_pomodoro}} )</p>
+        <a href="{%url 'update' item.pk %} " class="btn btn-info " tabindex="-1 " role="button " aria-disabled="true ">Edit</a>
+        <a href="{%url 'detail' item.pk %} " class="btn btn-success " tabindex="-1 " role="button " aria-disabled="true ">Detail</a>
+        <a href="{%url 'delete' item.pk %} " class="btn btn-warning " tabindex="-1 " role="button " aria-disabled="true ">Delete</a>
 
-    <p>{{user.pk}}</p>
-    <a href="{%url 'create'%}" class="btn btn-info" tabindex="-1" role="button" aria-disabled='true'>新規作成</a> {% for item in object_list %} {% if item.author_pk == user.pk%}
-    <div class="alert alert-{{item.priority}}" role="alert">
-        <p>{{item.titile}} 期日:{{item.duedate}} 作成者 :{{item.author}}</p>
-        <a href="{%url 'update' item.pk %}" class="btn btn-info  " tabindex="-1" role="button" aria-disabled="true">編集</a>
-        <a href="{%url 'delete' item.pk %}" class="btn btn-primary " tabindex="-1" role="button" aria-disabled="true">削除</a>
-        <a href="{%url 'detail' item.pk %}" class="btn btn-success  " tabindex="-1" role="button" aria-disabled="true">詳細</a>
     </div>
     {%endif%}{%endfor%}
+    <div class="container ">
+        <div class="row mt-5 ">
+            <div class="col-sm-8 " id='sch'>
+                <h3 style='text-align: center;'>Today's schedule</h3>
+                {{ time_schedule }}
+            </div>
+            <div class="col-sm-4 ">
+                <h4>Today's Targets : {{sum_pre}}</h4>
+                <h4>Today's Efforts : {{sum_true}}</h4>
+                <div style="margin:25px auto; width:700px; " id="cong ">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <h2>Congratulations !</h2>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+</div>
+
+<script>
+    var sum_pre = "{{sum_pre}} "
+    var sum_true = "{{sum_true}} "
+    var count = "{{sum_count}} "
+
+    if (sum_pre <= sum_true && sum_true != 0 && count != 0) {
+        document.getElementById("cong ").style.display = "block ";
+    } else {
+        document.getElementById("cong ").style.display = "none ";
+    }
+</script>
+<style>
+    .minute-wrapper {
+        border: 1px solid #eceeef;
+    }
+    
+    .hour-name {
+        padding: 5px;
+        text-align: right;
+        border: 1px solid #eceeef;
+    }
+    
+    .just-hour {
+        border-top: 1px solid #eceeef;
+    }
+    
+    span {
+        width: 20px;
+        height: 10px;
+        display: block;
+        border-radius: 10px;
+        float: left;
+    }
+    
+    span:nth-child(2n-1) {
+        background: red;
+        animation: bar1 0.8s infinite ease;
+    }
+    
+    span:nth-child(2n) {
+        background: yellow;
+        animation: bar2 0.8s infinite ease;
+    }
+    
+    @keyframes bar1 {
+        0% {
+            background: red
+        }
+        100% {
+            background: yellow
+        }
+    }
+    
+    @keyframes bar2 {
+        0% {
+            background: yellow
+        }
+        100% {
+            background: red
+        }
+    }
+    
+    h2 {
+        clear: both;
+        padding-top: 15px;
+        padding-left: 15px;
+        font-family: verdana;
+        font-size: 1.25em;
+    }
+</style>
+
+
 </div>{% endblock content %}
