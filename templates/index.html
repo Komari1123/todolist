@@ -42,8 +42,10 @@
                 <p>End：<input id="end_time" type='text' name='end_time'></p>
                 <p>Predict Pomodoro：<input type='number' name='predict_pomodoro'></p>
                 <input type='hidden' name='true_pomodoro' value=0>
-                <input type="submit" value="作成する">
+                <input type="submit" value="Create" class="btn btn-info">
             </form>
+            <p></p>
+            <a id='go_back' href="{%url 'list'%}" class="btn btn-success " tabindex="-1" role="button" aria-disabled='true'>Back</a>
         </div>
     </div>
     <!-- /.row -->
