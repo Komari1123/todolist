@@ -36,8 +36,8 @@ class TimeScheduleBS4:
         return obj['start'], obj['end'], obj['title']+obj['text']
         のようにしてください
         """
-        message = '{}〜{}<br>{}'.format(
-            obj.start_time, obj.end_time, obj.memo
+        message = '{}<br>{}〜{}'.format(
+            obj.titile,obj.start_time.strftime("%H:%M"),obj.end_time.strftime("%H:%M")
         )
         return obj.start_time, obj.end_time, message
  

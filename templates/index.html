@@ -17,15 +17,14 @@
 <div class="container">
     <div class="row mt-5">
         <div class="col-sm-8">
+            <h3 style='text-align: center;'>Today's schedule</h3>
             {{ time_schedule }}
         </div>
         <div class="col-sm-4">
             <form action="" method="POST">{% csrf_token %}
 
                 <p>タイトル：<input type='text' name='titile'></p>
-                <input type='hidden' name='author' value='{{ user.username }}'>
                 <input type='hidden' name='author_pk' value='{{ user.pk }}'>
-                <p> <label for="id_memo">Memo:</label><textarea name="memo" cols="40" rows="10" required="" id="id_memo"></textarea></p>
                 <p>
                     <label for="id_priority">Priority:</label>
                     <select name="priority" required="" id="id_priority">
@@ -39,9 +38,10 @@
                           
                           </select>
                 </p>
-                <p>DueDate：<input type='text' name='duedate'></p>
                 <p>Strat：<input id="start_time" type='text' name='start_time'></p>
                 <p>End：<input id="end_time" type='text' name='end_time'></p>
+                <p>Predict Pomodoro：<input type='number' name='predict_pomodoro'></p>
+                <input type='hidden' name='true_pomodoro' value=0>
                 <input type="submit" value="作成する">
             </form>
         </div>
@@ -49,13 +49,6 @@
     <!-- /.row -->
 </div>
 <!-- /.container -->
-{% endblock %} {% block extrajs %}
-<script>
-    $(function() {
-        $('[data-toggle="tooltip"]').tooltip('show');
-    });
-</script>
-<!-- timedropper css js -->
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://felicegattuso.com/projects/timedropper/js/timedropper/timedropper.js"></script>

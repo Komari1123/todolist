@@ -1,15 +1,21 @@
 {% extends 'base.html' %} {% load static %} {% block customcss %}
 <link rel='stylesheet' type='text/css' href="{% static 'timer_style.css' %}"> {% endblock customcss %} {%block header%} {%endblock header%} {% block content %}
-<div class="container">
+<div class="container" id="cont">
     <p id='timer'>00:25:00</p>
     <div>
         <button id="start_stop" class="btn btn-lg btn-primary" type="submit">START</button>
     </div>
-    <a href="{%url 'list'%}" class="btn btn-success " tabindex="-1" role="button" aria-disabled='true'>戻る</a>
-    <h5 id="p1">Next...</h5>
+    <a id='go_back' href="{%url 'list'%}" class="btn btn-success " tabindex="-1" role="button" aria-disabled='true'>Return to Home (
+        Stop the challenge )</a>
     <form method="post" action="" id="next">{% csrf_token %}
-        <p><input type="radio" id="radio_1" name="radio" value="re">Restart</p>
-        <p><input type="radio" id="radio_2" name="radio" value="home">Home</p>
+        <h5 style="margin-top: 5px;">Good job !! Which task did you do?</h5>
+
+        {% for item in object_list %}
+        <p><input type="radio" id="radio_1" name="radio1" value={{item.pk}}>{{item.titile}}</p> {%endfor%}
+
+        <h5>Next...</h5>
+        <p><input type="radio" id="radio_1" name="radio2" value="re">Restart</p>
+        <p><input type="radio" id="radio_2" name="radio2" value="home">Home</p>
         <button id="subb" class="btn-lg btn-primary btn-block" type="submit">Done</button>
     </form>
 </div>
@@ -17,15 +23,16 @@
 <script>
     var start;
     var timer_id
-    document.getElementById("p1").style.display = "none";
+
     document.getElementById("next").style.display = "none";
+
 
     document.getElementById('start_stop').addEventListener('click', function() {
         if (this.innerHTML === 'START') {
             start = new Date();
 
             timer_id = setInterval(goTimer, 10);
-            this.innerHTML = 'STOP';
+            this.innerHTML = 'RESET';
             this.classList.remove('btn-primary');
             this.classList.add('btn-danger');
         } else {
@@ -58,7 +65,8 @@
         // seconds = addZero(seconds);
 
         var sum_times = minites * 60 + seconds;
-        var left_time = 1 * 60 - sum_times;
+        var one_pomp = 25 * 60
+        var left_time = one_pomp - sum_times;
 
         var left_minites = Math.floor(left_time / 60);
         var left_second = Math.floor(left_time - left_minites * 60);
@@ -69,9 +77,36 @@
         if (left_minites >= 0 && left_seconds >= 0) {
             document.getElementById('timer').innerHTML = hours + ':' + left_minites + ':' + left_seconds;
         } else {
-            document.getElementById('timer').innerHTML = '00:00:00';
-            p1.style.display = "block";
+            var now1 = new Date();
+            var milli1 = now1.getTime() - start.getTime();
+            var seconds1 = Math.floor(milli1 / 1000);
+            var minites1 = Math.floor(seconds1 / 60);
+            var hours1 = Math.floor(minites1 / 60);
+
+            seconds1 = seconds1 - minites1 * 60;
+            minites1 = minites1 - hours1 * 60;
+
+            hours1 = addZero(hours1);
+            // minites = addZero(minites);
+            // seconds = addZero(seconds);
+
+            var sum_times1 = minites1 * 60 + seconds1;
+            var left_time1 = 5 * 60 - sum_times1 + one_pomp;
+
+            var left_minites1 = Math.floor(left_time1 / 60);
+            var left_second1 = Math.floor(left_time1 - left_minites1 * 60);
+
+            left_minites1 = addZero(left_minites1)
+            left_seconds1 = addZero(left_second1)
+
+            if (left_minites1 >= 0 && left_seconds1 >= 0) {
+                document.getElementById('timer').innerHTML = hours + ':' + left_minites1 + ':' + left_seconds1;
+            } else {
+                document.getElementById('timer').innerHTML = '00:00:00';
+            }
+
             next.style.display = "block";
+
         }
     }
 </script>

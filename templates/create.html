@@ -1,9 +1,7 @@
 {% extends 'base.html' %} {%block content%}
 <form action="" method="POST">{% csrf_token %}
     <p>タイトル：<input type='text' name='titile'></p>
-    <input type='hidden' name='author' value='{{ user.username }}'>
     <input type='hidden' name='author_pk' value='{{ user.pk }}'>
-    <p> <label for="id_memo">Memo:</label><textarea name="memo" cols="40" rows="10" required="" id="id_memo"></textarea></p>
     <p>
         <label for="id_priority">Priority:</label>
         <select name="priority" required="" id="id_priority">
@@ -17,7 +15,8 @@
               
               </select>
     </p>
-    <p>DueDate：<input type='text' name='duedate'></p>
+    <p>Predict Pomodoro：<input type='number' name='predict_pomodoro'></p>
+    <input type='hidden' name='true_pomodoro' value=0>
     <input type="submit" value="作成する">
 </form>
 {%endblock content%}
