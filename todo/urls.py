@@ -11,6 +11,7 @@ urlpatterns = [
     path('delete/<int:pk>',TodoDelete.as_view(),name='delete'),
     path('update/<int:pk>',TodoUpdate.as_view(),name='update'),
     path('signup/', signupfunc, name='signup'),
+    path('', signupfunc, name='signup'),
     path('login/', loginfunc, name='login'),
     path('logout/', logoutfunc, name='logout'),
     path('timer/', timer, name='timer'),
