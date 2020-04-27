@@ -1,1 +1,1 @@
-web: gunicorn stodoprojectwsgi --log-file -
+web: gunicorn stodoproject.wsgi --log-file -
